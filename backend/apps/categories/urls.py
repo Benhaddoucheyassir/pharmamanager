@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import CategoryViewSet
 
-# This defines the namespace for these URLs
-app_name = 'categories'
+router = DefaultRouter()
+router.register(r"", CategoryViewSet, basename="category")
 
-urlpatterns = [
-    # We will add endpoints here later
-]
+urlpatterns = [path("", include(router.urls))]
