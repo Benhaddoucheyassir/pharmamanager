@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import MedicamentViewSet
 
-# This defines the namespace for these URLs
-app_name = 'medicaments'
+router = DefaultRouter()
+router.register(r"", MedicamentViewSet, basename="medicament")
 
-urlpatterns = [
-    # We will add endpoints here later
-]
+urlpatterns = [path("", include(router.urls))]
