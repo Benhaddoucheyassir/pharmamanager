@@ -1,8 +1,4 @@
 from django.urls import path
+from .views import DashboardView
 
-# This defines the namespace for these URLs
-app_name = 'dashboard'
-
-urlpatterns = [
-    # We will add endpoints here later
-]
+urlpatterns = [path("", DashboardView.as_view(), name="dashboard")]
