@@ -1,19 +1,35 @@
 import { useState } from 'react'
-import Dashboard from './pages/Dashboard'
+import { AnimatePresence, motion } from 'framer-motion'
+import LandingPage from './pages/LandingPage'
+import MVPLayout from './pages/MVPLayout'
 
 export default function App() {
-  const [page, setPage] = useState('dashboard')
-
-  const navStyle = { padding: '8px 16px', cursor: 'pointer', border: 'none', background: 'none', fontSize: '15px' }
-  const activeStyle = { ...navStyle, borderBottom: '2px solid #333', fontWeight: 600 }
+  const [view, setView] = useState('landing')
 
   return (
-    <div style={{ maxWidth: '960px', margin: '0 auto', padding: '1rem' }}>
-      <nav style={{ display: 'flex', gap: '8px', marginBottom: '2rem', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>
-        <button style={page === 'dashboard' ? activeStyle : navStyle} onClick={() => setPage('dashboard')}>Dashboard</button>
-      </nav>
-
-      {page === 'dashboard' && <Dashboard />}
-    </div>
+    <AnimatePresence mode="wait">
+      {view === 'landing' ? (
+        <motion.div
+          key="landing"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <LandingPage onEnterApp={() => setView('app')} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="app"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          style={{ height: '100vh' }}
+        >
+          <MVPLayout onBack={() => setView('landing')} />
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
