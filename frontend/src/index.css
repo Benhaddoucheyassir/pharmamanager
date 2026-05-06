@@ -1,23 +1,135 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@reference "tailwindcss";
 
-*, *::before, *::after {
-  box-sizing: border-box;
+/* PharmaStream Design System — Premium Health-Tech */
+
+@layer base {
+  :root {
+    /* Deep clinical dark with mint/cyan accents */
+    --background: 222 39% 5%;
+    --foreground: 180 20% 96%;
+
+    --card: 222 35% 8%;
+    --card-foreground: 180 20% 96%;
+
+    --popover: 222 39% 6%;
+    --popover-foreground: 180 20% 96%;
+
+    --primary: 162 84% 55%;            /* mint/teal */
+    --primary-foreground: 222 47% 6%;
+    --primary-glow: 174 90% 60%;
+
+    --secondary: 222 30% 12%;
+    --secondary-foreground: 180 20% 96%;
+
+    --muted: 222 25% 14%;
+    --muted-foreground: 215 16% 60%;
+
+    --accent: 196 95% 60%;             /* cyan */
+    --accent-foreground: 222 47% 6%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --warning: 38 95% 60%;
+    --success: 152 76% 50%;
+
+    --border: 220 25% 18%;
+    --input: 220 25% 14%;
+    --ring: 162 84% 55%;
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-mesh: radial-gradient(ellipse 80% 60% at 20% 20%, hsl(162 84% 45% / 0.35), transparent 60%),
+                     radial-gradient(ellipse 70% 60% at 80% 30%, hsl(196 95% 50% / 0.28), transparent 60%),
+                     radial-gradient(ellipse 80% 60% at 60% 90%, hsl(252 80% 55% / 0.22), transparent 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-card: linear-gradient(160deg, hsl(222 35% 11% / 0.8), hsl(222 35% 7% / 0.6));
+    --gradient-text: linear-gradient(135deg, hsl(180 20% 98%), hsl(162 84% 70%));
+
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(162 84% 55% / 0.35);
+    --shadow-elegant: 0 30px 80px -20px hsl(162 84% 30% / 0.4);
+    --shadow-card: 0 8px 32px hsl(222 50% 2% / 0.5);
+
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: #080C10;
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  * { 
+    border-color: hsl(var(--border));
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-image:
+      radial-gradient(ellipse 100% 60% at 50% -10%, hsl(162 84% 25% / 0.15), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 10%, hsl(196 95% 40% / 0.12), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Subtle grain overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
 }
 
-::selection {
-  background: rgba(6, 182, 212, 0.25);
-}
+@layer components {
+  .glass {
+    backdrop-filter: blur(20px);
+    background-color: hsl(var(--card) / 0.4);
+    border: 1px solid hsl(0 0% 100% / 0.06);
+    box-shadow: var(--shadow-card), inset 0 1px 0 hsl(0 0% 100% / 0.04);
+  }
 
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #1C2A38; border-radius: 2px; }
+  .glass-strong {
+    backdrop-filter: blur(32px);
+    background-color: hsl(var(--card) / 0.6);
+    border: 1px solid hsl(0 0% 100% / 0.08);
+    box-shadow: var(--shadow-card), inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  }
+
+  .text-gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mesh-bg {
+    background-image: var(--gradient-mesh);
+  }
+
+  .glow-primary { box-shadow: var(--shadow-glow); }
+
+  .led {
+    position: relative;
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.4) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.4) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 80%);
+  }
+}
