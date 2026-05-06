@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
@@ -21,7 +22,10 @@ class CategoryViewSet(ViewSet):
         serializer = CategorySerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        category = CategoryService.create_category(serializer.validated_data)
+        try:
+            category = CategoryService.create_category(serializer.validated_data)
+        except IntegrityError:
+            return Response({"detail": "Category with this name already exists."}, status=status.HTTP_400_BAD_REQUEST)
         return Response(CategorySerializer(category).data, status=status.HTTP_201_CREATED)
 
     @extend_schema(summary="Retrieve a category", responses={200: CategorySerializer, 404: OpenApiResponse(description="Not found")})
